@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Splashscreen</class>
+ <widget class="QWidget" name="Splashscreen">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>689</width>
+    <height>528</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/* make the QWidget use your PNG as a stretched background */
+QWidget#Splashscreen {                              /* use your form’s objectName */
+    border-image: url(&quot;:/SplashScreen.png&quot;) 0 0 0 0 stretch stretch;
+    background-color: #151515;                      /* fallback color */
+}
+</string>
+  </property>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

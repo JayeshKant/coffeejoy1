@@ -1,0 +1,36 @@
+<RCC>
+    <qresource prefix="/">
+        <file>B1.png</file>
+        <file>B2.png</file>
+        <file>CDis.png</file>
+        <file>Kaffee.png</file>
+        <file>MDis.png</file>
+        <file>MPump.png</file>
+        <file>WPump.png</file>
+        <file>machine.png</file>
+        <file>emptyMachine.png</file>
+        <file>Menu.png</file>
+        <file>cup.png</file>
+        <file>SplashScreen.png</file>
+        <file>0-removebg-preview.png</file>
+        <file>25-removebg-preview.png</file>
+        <file>30-removebg-preview.png</file>
+        <file>35-removebg-preview.png</file>
+        <file>40-removebg-preview.png</file>
+        <file>45-removebg-preview.png</file>
+        <file>50-removebg-preview.png</file>
+        <file>55-removebg-preview.png</file>
+        <file>60-removebg-preview.png</file>
+        <file>grinder1.png</file>
+        <file>Milk.png</file>
+        <file>Water.png</file>
+        <file>grinder2.png</file>
+        <file>grinder3.png</file>
+        <file>grinder4.png</file>
+        <file>powderpipe0.png</file>
+        <file>powderpipe1.png</file>
+        <file>powderpipe2.png</file>
+        <file>powderpipe3.png</file>
+        <file>powderpipe4.png</file>
+    </qresource>
+</RCC>
