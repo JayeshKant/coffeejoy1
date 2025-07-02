@@ -38,49 +38,60 @@ CoffeeWaiterTest::CoffeeWaiterTest() {}
 CoffeeWaiterTest::~CoffeeWaiterTest() {}
 
 void CoffeeWaiterTest::initTestCase() {
-    // simulation = new Simulation(
-    //     new DummyTouchScreen(this),
-    //     new DummyCoinSensor(this),
-    //     new DummyPump(this),
-    //     new DummyValve(valveType::supply, this),
-    //     this
-    //     );
+    simulation = new Simulation(
+        new DummyTouchScreen(this),
+        new DummyCoinSensor(this),
+        new DummyPump(this),
+        new DummyValve(valveType::supply, this),
+        this
+        );
 
-    // payment = new Payment(
-    //     new DummySimulation(this),
-    //     new DummyCoffeeSelection(this),
-    //     this
-    //     );
+    payment = new Payment(
+        simulation,
+        // new DummySimulation(this),
+        new DummyCoffeeSelection(this),
+        this
+        );
 
-    // thermoblock = new Thermoblock(
-    //     new DummySimulation(this),
-    //     this
-    //     );
+    thermoblock = new Thermoblock(
+        simulation,
+        // new DummySimulation(this),
+        this
+        );
 
-    // coffeeSelection = new CoffeeSelection(this);
+    coffeeSelection = new CoffeeSelection(this);
 
-    // coffeeStateMachine = new CoffeeStateMachine(
-    //     new DummySimulation(this),
-    //     new DummyPayment(this),
-    //     new DummyCoinChecker(this),
-    //     new DummyCoffeeSelection(this),
-    //     new DummyCoinSupply(this),
-    //     this
-    //     );
+    coffeeStateMachine = new CoffeeStateMachine(
+        simulation,
+        payment,/*
+        new DummySimulation(this),
+        new DummyPayment(this),*/
+        new DummyCoinChecker(this),
+        coffeeSelection,
+        // new DummyCoffeeSelection(this),
+        new DummyCoinSupply(this),
+        this
+        );
 
-    // cupInsertedSensor = new LightSensor(
-    //     simulation,
-    //     lightSensors::cupInserted,
-    //     this
-    //     );
+    cupInsertedSensor = new LightSensor(
+        simulation,
+        lightSensors::cupInserted,
+        this
+        );
 
     coffeeWaiter = new CoffeeWaiter(
-        new DummyPayment(this),
-        new DummyLightSensor(this),
-        new DummyThermoblock(this),
-        new DummySimulation(this),
-        new DummyCoffeeStateMachine(this),
-        new DummyCoffeeSelection(this),
+        payment,
+        cupInsertedSensor,
+        thermoblock,
+        simulation,
+        coffeeStateMachine,
+        coffeeSelection,
+        // new DummyPayment(this),
+        // new DummyLightSensor(this),
+        // new DummyThermoblock(this),
+        // new DummySimulation(this),
+        // new DummyCoffeeStateMachine(this),
+        // new DummyCoffeeSelection(this),
         this
         );
 

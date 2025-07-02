@@ -276,6 +276,19 @@ void MainWindow::onInternalviewClicked()
         connect(m_simulation, &Simulation::pressureUpdated,
                 internalViewWindow, &internalview::updatePressureVisual);
 
+        connect(m_waterValve, &Valve::valveStateChanged,
+                internalViewWindow, &internalview::updateValveVisual);
+
+        connect(m_milkValve, &Valve::valveStateChanged,
+                internalViewWindow, &internalview::updateValveVisual);
+
+        connect(m_simulation, &Simulation::waterDispensing,
+                internalViewWindow, &internalview::updateWaterProgress);
+
+        connect(m_simulation, &Simulation::milkDispensing,
+                internalViewWindow, &internalview::updateMilkProgress);
+
+
         internalViewWindow->setAttribute(Qt::WA_DeleteOnClose);
     }
 

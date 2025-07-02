@@ -129,7 +129,9 @@ signals:
     void notEnoughBeans(); //TODO implement in maintenace / coffeestatemachine
     void pressureToHigh(); //TODO implement in maintenace / coffeestatemachine
     void waterDispensed();
+    void waterDispensing(int mlDispensed , int totalMl);
     void milkDispensed();
+    void milkDispensing(int mlDispensed, int totalMl);
     void grindedBeans();
     void grindingProgress(int gramsGround, int totalRequired);
     void milkTemperatureChanged(int temperature);

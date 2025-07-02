@@ -24,7 +24,8 @@ public slots:
     void updateMilkTemperatureVisual(int temperature);
     void updatePressureVisual(int pressure);
     void updateValveVisual (valveType type , valveState state);
-
+    void updateWaterProgress(int dispensed , int total);
+    void updateMilkProgress(int dispensed, int total);
 };
 
 #endif // INTERNALVIEW_H

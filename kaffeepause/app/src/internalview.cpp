@@ -6,7 +6,7 @@ internalview::internalview(QWidget *parent)
     , ui(new Ui::internalview)
 {
     ui->setupUi(this);
-    const QSize targetSize(1891, 1500);
+    const QSize targetSize(1591, 1100);
     setFixedSize(targetSize);
 }
 
@@ -114,7 +114,7 @@ void internalview::updatePressureVisual(int pressure)
 
     QString imagePath1;
     if (pressure < 4000)
-        imagePath1 = ":/bentpipe2";
+        imagePath1 = ":/bentpipe1";
     else if (pressure < 5000)
         imagePath1 = ":/bentpipe3";
     else if (pressure < 6000)
@@ -155,4 +155,53 @@ void internalview::updateValveVisual(valveType type, valveState state)
 
     QPixmap pix(path);
     valvelabel->setPixmap(pix.scaled(valvelabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+}
+
+void internalview::updateWaterProgress(int dispensed , int total)
+{
+    QString path;
+    QString imagePath;
+    if (dispensed < 5)
+        imagePath = ":/coffefinal0.png";
+    else if (dispensed < 25)
+        imagePath = ":/coffeefinal1.png";
+    else if (dispensed < 50)
+        imagePath = ":/coffeefinal2.png";
+    else if (dispensed < 100)
+        imagePath = ":/coffeefinal3.png";
+    else if (dispensed < 125)
+        imagePath = ":/coffeefinal4.png";
+    else if (dispensed < 160)
+        imagePath = ":/coffeefinal5.png";
+    else
+        imagePath = ":/coffeefinal5";
+
+    QPixmap pix(path);
+    ui->coffeefinal->setPixmap(pix.scaled(ui->coffeefinal->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+        ui->WaterLevel->setText(QString::number(dispensed)+ "/" + QString::number(total)+ "ml");
+}
+
+void internalview::updateMilkProgress(int dispensed, int total)
+{
+    QString path;
+    QString imagePath;
+    if (dispensed < 9)
+        imagePath = ":/milkfinal0.png";
+    else if (dispensed < 20)
+        imagePath = ":/milkfinal1.png";
+    else if (dispensed < 30)
+        imagePath = ":/milkfinal2.png";
+    else if (dispensed < 40)
+        imagePath = ":/milkfinal3.png";
+    else if (dispensed < 50)
+        imagePath = ":/milkfinal4.png";
+    else if (dispensed < 60)
+        imagePath = ":/milkfinal5.png";
+    else
+        imagePath = ":/milkfinal5.png";
+
+    QPixmap pix(path);
+    ui->milkfinal->setPixmap(pix.scaled(ui->milkfinal->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        ui->milklvl->setText(QString::number(dispensed) + "/" + QString::number(total) + " ml");
 }

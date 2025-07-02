@@ -24,7 +24,7 @@ public:
     vector<int> getGeneralAvailability() const;
     void setGeneralAvailability(const int generalAvailability[3]);
 
-    int getPriceInCent();
+    virtual int getPriceInCent();
     void setPriceInCent();
 
     coffee getTypeCoffee();

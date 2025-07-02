@@ -57,13 +57,43 @@ public:
 class DummyCoffeeSelection : public CoffeeSelection {
 public:
     DummyCoffeeSelection(QObject* parent = nullptr) : CoffeeSelection(parent) {}
+
+    int getPriceInCent() override {
+        return 150;  // Beispielpreis
+    }
+};
+
+
+class DummyLightSensor : public LightSensor {
+public:
+    DummyLightSensor(QObject* parent = nullptr)
+        : LightSensor(new DummySimulation(parent), lightSensors::cupInserted, parent) {
+
+    }
 };
 
 class DummyCoinSupply : public CoinSupply {
 public:
     DummyCoinSupply(QObject* parent = nullptr)
         : CoinSupply(new DummySimulation(parent),
-                     array<CoinSensor*, 6>{}, array<LightSensor*, 2>{}, parent) {}
+                     createDummyCoinSensors(parent),
+                     createDummyLightSensors(parent),
+                     parent) {}
+
+private:
+    static std::array<CoinSensor*, 6> createDummyCoinSensors(QObject* parent) {
+        return {
+            new DummyCoinSensor(parent), new DummyCoinSensor(parent),
+            new DummyCoinSensor(parent), new DummyCoinSensor(parent),
+            new DummyCoinSensor(parent), new DummyCoinSensor(parent)
+        };
+    }
+
+    static std::array<LightSensor*, 2> createDummyLightSensors(QObject* parent) {
+        return {
+            new DummyLightSensor(parent), new DummyLightSensor(parent)
+        };
+    }
 };
 
 class DummyCoinChecker : public CoinChecker {
@@ -85,13 +115,7 @@ public:
               parent) {}
 };
 
-class DummyLightSensor : public LightSensor {
-public:
-    DummyLightSensor(QObject* parent = nullptr)
-        : LightSensor(new DummySimulation(parent), lightSensors::cupInserted, parent) {
 
-    }
-};
 
 class DummyThermoblock : public Thermoblock {
 public:

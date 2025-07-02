@@ -49,6 +49,9 @@ void PumpControl::checkCurrentPressure(){
         startPump();
         qDebug() << "PumpControl::checkCurrentPressure currentPressure: " << m_simulation->getCurrentPressure()
                  << "pressureReached: " << pressureReached;
+        qDebug() << "brewingCoffee: " << brewingCoffee <<
+            "milkDispense" << milkDispense <<
+            "flushSystem" << flushSystem;
         if ((m_simulation->getCurrentPressure() >= targetPressure && !pressureReached)) {
             pressureReached = true;
             emit targetPressureReached();

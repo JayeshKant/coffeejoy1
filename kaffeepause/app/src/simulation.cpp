@@ -338,7 +338,7 @@ void Simulation::setCoinReturn(coinType type){
 }
 
 int Simulation::getCoinReturn(coinType type){
-    qDebug() << "Simulation: return coinReturnMap at" << (int)type;
+    qDebug() << "Simulation: return coinReturnMap at" << (int)type << "with " << this->coinReturnMap.at(type);
     return this->coinReturnMap.at(type);
 }
 
@@ -539,6 +539,7 @@ void Simulation::reduceWater(){
     if (currentWaterAmount >= flowRate) {
         currentWaterAmount -= flowRate; //reduce Water in tank
         waterInMlDispensed += flowRate;
+        emit waterDispensing(waterInMlDispensed, waterNeeded);
         qDebug() << "Water reduced by" << flowRate << "ml. Dispensed:" << waterInMlDispensed << "ml";
     } else {
         pumpWaterTimer->stop();
@@ -644,6 +645,7 @@ void Simulation::reduceMilk(){
         currentMilkAmount -= flowRateMilk; //reduce Milk in tank
         currentWaterAmount -= flowRateWater;
         milkInMlDispensed += flowRateMilk;
+        emit milkDispensing(milkInMlDispensed, milkNeeded);
         qDebug() << "Milk reduced by" << flowRate << "ml. Disepensed:" << milkInMlDispensed << "ml";
     } else {
         pumpMilkTimer->stop();

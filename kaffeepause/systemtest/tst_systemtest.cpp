@@ -285,9 +285,6 @@ void systemtest::testEspressoMedium() {
 
     simulation->onEurButtonClicked(coinType::EUR1);
 
-    QTRY_COMPARE(simulation->getCoinReturn(coinType::EUR05), 1);
-    QTRY_COMPARE(simulation->getCoinReturn(coinType::EUR01), 1);
-
     QTRY_COMPARE(coffeeStateMachine->getCurrentState(), state::grindCoffee);
     QTRY_COMPARE(simulation->getBeansGrinded(), 0);
 

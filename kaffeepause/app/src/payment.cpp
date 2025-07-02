@@ -10,6 +10,7 @@
 Payment::Payment(Simulation* m_simulation, CoffeeSelection* m_coffeeSelection, QObject* parent )
     : QObject(parent), m_simulation(m_simulation), m_coffeeSelection(m_coffeeSelection){
     qDebug() << "Payment: initialized. Amount due =" << m_coffeeSelection->getPriceInCent() << "€";
+
     connect(this, &Payment::coinBooked, this, &Payment::onCoinBooked);
     connect(this, &Payment::requiredAmountReached, this, &Payment::onRequiredAmountReached);
     connect(m_simulation, &Simulation::coinInserted, this, &Payment::setInsertedCoinData);
