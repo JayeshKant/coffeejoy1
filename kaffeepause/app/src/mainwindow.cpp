@@ -259,6 +259,9 @@ void MainWindow::onInternalviewClicked()
         connect(m_simulation, &Simulation::grindingProgress,
                 internalViewWindow, &internalview::updateGrindingVisual);
 
+        connect(m_simulation, &Simulation::milkTemperatureChanged,
+                internalViewWindow, &internalview::updateMilkTemperatureVisual);
+
         internalViewWindow->setAttribute(Qt::WA_DeleteOnClose);
     }
 
@@ -267,6 +270,9 @@ void MainWindow::onInternalviewClicked()
     internalViewWindow->activateWindow();
     internalViewWindow->updateTemperatureVisual(
         m_thermoblock->getTargetTemperature());
+    internalViewWindow->updateMilkTemperatureVisual(
+        m_simulation->getMilkTemperature());
+
 }
 
 

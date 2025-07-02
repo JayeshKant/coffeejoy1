@@ -9,6 +9,7 @@
 #include "coinchecker.h"
 #include "grinder.h"
 #include "lightsensor.h"
+#include "maintenance.h"
 #include "milkunit.h"
 #include "payment.h"
 #include "pump.h"
@@ -33,6 +34,7 @@ public:
         CoinChecker* m_coinChecker,
         Grinder* m_grinder,
         array<LightSensor*, 9> m_lightSensors,
+        Maintenance* m_maintenance,
         MilkUnit* m_milkUnit,
         Payment* m_payment,
         Pump* m_pump,
@@ -52,6 +54,7 @@ public:
 signals:
     void startUpComplete();
     void resetComplete();
+    void attentionNeeded();
 
 private:
     BrewingUnit* m_brewingUnit;
@@ -61,6 +64,7 @@ private:
     CoinChecker* m_coinChecker;
     Grinder* m_grinder;
     array<LightSensor*, 9> m_lightSensors;
+    Maintenance* m_maintenance;
     MilkUnit* m_milkUnit;
     Payment* m_payment;
     Pump* m_pump;

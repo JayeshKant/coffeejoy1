@@ -33,6 +33,8 @@ CoffeeStateMachine::CoffeeStateMachine(
     connect(m_coinChecker, &CoinChecker::coinDetected, this, [this]() { trigger(event::COIN_DETECTED); });
 
 
+
+
     // connections of signals and slots
     // connect(this, &CoffeeStateMachine::startUp, this, &CoffeeStateMachine::onStart);
     // connect(this, &CoffeeStateMachine::readySelectCoffee, this, &CoffeeStateMachine::onStartupDone);
@@ -227,7 +229,7 @@ void CoffeeStateMachine::trigger(enum event e) {
         break;
 
     case state::abort:
-        if (e == event::FINISHED) current_state_ = state::readySelectCoffee;
+        if (e == event::FINISHED) current_state_ = state::readySelectCoffee; // TODO Refill Beans etc
         break;
     default:
         qDebug() << "Change for state not defined.";

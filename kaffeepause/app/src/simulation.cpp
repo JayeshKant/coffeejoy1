@@ -42,6 +42,8 @@ Simulation::Simulation(TouchScreen* m_touchScreen, CoinSensor* m_coinSensor, Pum
         {lightSensors::cremaBeanLevel, detection::lightBlocked},
         {lightSensors::wasteDisposale, detection::lightReceived},
         {lightSensors::cupInserted, detection::lightReceived},
+        {lightSensors::milkLevel, detection::lightBlocked},
+        {lightSensors::dirtyWater, detection::lightBlocked},
         {lightSensors::freshWaterLevel, detection::lightBlocked}
     };
 
@@ -59,7 +61,9 @@ Simulation::Simulation(TouchScreen* m_touchScreen, CoinSensor* m_coinSensor, Pum
         {lightSensors::cremaBeanLevel, nullptr},
         {lightSensors::wasteDisposale, nullptr},
         {lightSensors::cupInserted, nullptr},
-        {lightSensors::freshWaterLevel, nullptr}
+        {lightSensors::freshWaterLevel, nullptr},
+        {lightSensors::milkLevel, nullptr},
+        {lightSensors::dirtyWater, nullptr},
     };
 
     qDebug() << "Simulation: Initialize Timer for Pressure";
@@ -91,7 +95,6 @@ Simulation::Simulation(TouchScreen* m_touchScreen, CoinSensor* m_coinSensor, Pum
     connect(fillFreshWaterValveTimer, &QTimer::timeout, this, &Simulation::fillFreshWaterValve);
 
 
-
 }
 
 Simulation::~Simulation() {}
@@ -100,6 +103,7 @@ void Simulation::heatMilk(){
     milkTemperature += 1;
     qDebug() << "Simulation::heatMilk The environment increased the milk "
                 "temperature +1 degree. Temperature now: " <<milkTemperature;
+    emit milkTemperatureChanged(milkTemperature);
 }
 
 
@@ -109,6 +113,13 @@ void Simulation::start(){
     updateMilkHeatingTimer->start(20000); // TODO stop when shutting down
     updateLightSensorTimer->start(3000); // TODO stop when shutting down
 
+}
+
+void Simulation::shutdown(){
+    pressureTimer->stop();
+    fillFreshWaterValveTimer->stop();
+    updateMilkHeatingTimer->stop();
+    updateLightSensorTimer->stop();
 }
 
 void Simulation::reset(){
@@ -124,16 +135,11 @@ void Simulation::reset(){
 
 
     //Start Values TODO from file
-    qDebug() << "Simulation: Initial Values for lightSensorsStatusMap";
-    this->lightSensorsStatusMap = {
-        {lightSensors::hopper, detection::lightReceived},
-        {lightSensors::coinSupply, detection::lightReceived},
-        {lightSensors::espressoBeanLevel, detection::lightBlocked},
-        {lightSensors::cremaBeanLevel, detection::lightBlocked},
-        {lightSensors::wasteDisposale, detection::lightReceived},
-        {lightSensors::cupInserted, detection::lightReceived},
-        {lightSensors::freshWaterLevel, detection::lightBlocked}
-    };
+    qDebug() << "Simulation: Reset Values for lightSensorsStatusMap";
+
+    this->lightSensorsStatusMap.at(lightSensors::hopper) = detection::lightReceived;
+    this->lightSensorsStatusMap.at(lightSensors::coinSupply) = detection::lightReceived;
+    this->lightSensorsStatusMap.at(lightSensors::cupInserted) = detection::lightReceived;
 
 
     pumpWaterTimer->stop();
@@ -168,8 +174,8 @@ void Simulation::reset(){
     //Waste
 
     wasteWater = 0; // max 1500ml
-
-    milkTemperature = 20;
+    grindedWaste = 0; // max 2000
+    milkTemperature = 14;
 }
 
 
@@ -403,6 +409,10 @@ void Simulation::reduceBeans(){
         grinderTimer->stop();
         emit grindedBeans();
         qDebug() << "Simulation::setCoffeeBeansLevel reducing beansLevelMap at " << (int)this->selectedBeans << " by " << this->requiredAmountBeans;
+        grindedWaste += requiredAmountBeans;
+        qDebug() << "Simulation::setCoffeeBeansLevel adding " << this->requiredAmountBeans
+                 << " to grinded Waste";
+
         return;
     }
     if (this->beansLevelMap.at(this->selectedBeans) >= grindRate) {
@@ -413,6 +423,7 @@ void Simulation::reduceBeans(){
     } else {
         grinderTimer->stop();
         emit notEnoughBeans();
+        grindedWaste += beansGrinded;
         return;
     }
 }
@@ -433,6 +444,7 @@ int Simulation::getCoffeeBeansLevel(beans typeBeans){
 void Simulation::setMilkTemperature(int milkTemperature){
     qDebug() << "Simulation::setMilkTemperature to " << milkTemperature;
     this->milkTemperature = milkTemperature;
+    emit milkTemperatureChanged(milkTemperature);
 }
 
 int Simulation::getMilkTemperature(){
@@ -453,12 +465,12 @@ void Simulation::updateLightSensors(){
         lightSensorsStatusMap.at(lightSensors::milkLevel) = detection::lightReceived;
     }
 
-    if(beansGrinded > 2500){
+    if(grindedWaste > 2500){
         lightSensorsStatusMap.at(lightSensors::wasteDisposale) = detection::lightBlocked;
     }
 
     if(wasteWater >= 1500){
-        lightSensorsStatusMap.at(lightSensors::wasteDisposale) = detection::lightBlocked;
+        lightSensorsStatusMap.at(lightSensors::dirtyWater) = detection::lightBlocked;
     }
 
     if(currentWaterAmount >= maxWaterAmount){
@@ -498,7 +510,7 @@ void Simulation::pumpWater(int waterNeeded, int flowRate){
     this->flowRate = flowRate;
     this->waterInMlDispensed = 0;
 
-    if (waterNeeded + 15 >= currentWaterAmount) {
+    if (waterNeeded + 10 >= currentWaterAmount) {
         emit notEnoughWater();
         return;
     }
@@ -531,8 +543,12 @@ int Simulation::getCurrentWaterAmount(){
 
 
 void Simulation::fillFreshWaterValve(){
-    if(m_freshWaterSupplyValve->getValveState() == valveState::open){
-        currentWaterAmount += 5;
+    if((m_freshWaterSupplyValve->getValveState() == valveState::open) && (currentWaterAmount < maxWaterAmount)){
+        if (currentWaterAmount <= (maxWaterAmount - 50)) {
+            currentWaterAmount += 50;
+        } else{
+            currentWaterAmount = maxWaterAmount;
+        }
     }
 }
 
@@ -542,6 +558,9 @@ int Simulation::getWaterDispensed(){
     return this->waterInMlDispensed;
 }
 
+int Simulation::getMaxWaterAmount(){
+    return this->maxWaterAmount;
+}
 
 
 //For PumpControl
@@ -627,4 +646,13 @@ int Simulation::getCurrentMilkAmount(){
 
 int Simulation::getDispencedAmountMilk(){
     return this->milkInMlDispensed;
+}
+
+//Waste
+void Simulation::setGrindedWaste(int wasteAmount){
+    grindedWaste = wasteAmount;
+};
+
+int Simulation::getGrindedWaste(){
+    return grindedWaste;
 }

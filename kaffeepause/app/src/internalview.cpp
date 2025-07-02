@@ -46,8 +46,7 @@ void internalview::updateTemperatureVisual(int temperature)
 
 void internalview::updateGrindingVisual(int current , int total)
 {
-    ui->grindingProgress->setMaximum(total);
-    ui->grindingProgress->setValue(current);
+
 
     int percentage = current * 100 / total;
     QString path;
@@ -66,4 +65,32 @@ void internalview::updateGrindingVisual(int current , int total)
     QPixmap pix1(powderpath);
     ui->powderpipe->setPixmap(pix1.scaled(ui->grinder->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 
+}
+
+void internalview::updateMilkTemperatureVisual(int temperature)
+{
+
+    QString imagePath;
+    if (temperature < 0)
+        imagePath = ":/0-removebg-preview.png";
+    else if (temperature < 5)
+        imagePath = ":/25-removebg-preview.png";
+    else if (temperature < 6)
+        imagePath = ":/30-removebg-preview.png";
+    else if (temperature < 10)
+        imagePath = ":/35-removebg-preview.png";
+    else if (temperature < 15)
+        imagePath = ":/40-removebg-preview.png";
+    else if (temperature < 20)
+        imagePath = ":/45-removebg-preview.png";
+    else if (temperature < 25)
+        imagePath = ":/50-removebg-preview.png";
+    else if (temperature < 30)
+        imagePath = ":/55-removebg-preview.png";
+    else
+        imagePath = ":/60-removebg-preview.png";
+
+    QPixmap pix(imagePath);
+    ui->milktempthermo->setPixmap(pix.scaled(ui->milktempthermo->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->milkTempValue->setText(QString::number(temperature)+ "°C");
 }

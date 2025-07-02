@@ -17,6 +17,7 @@
 #include "coffeeselection.h"
 #include "maintenance.h"
 #include "startupmanager.h"
+#include "preparationshutdown.h"
 
 
 class systemtest : public QObject
@@ -30,9 +31,9 @@ public:
     void initTestCase();
 
 private slots:
-    void testEspresso();
-    void testCrema();
-    void testCapuccino();
+    void testEspressoMedium(); //Testing Change
+    void testCremaMedium();
+    void testCapuccinoMedium();
 
 private:
     // Direkt enthaltene Klassen
@@ -70,6 +71,7 @@ private:
     MilkUnit* milkUnit;
     Maintenance* maintenance;
     StartUpManager* startUpManager;
+    PreparationShutdown* preparationShutdown;
 
 };
 
@@ -213,6 +215,7 @@ void systemtest::initTestCase(){
         coinChecker,
         grinder,
         lightSensors,
+        maintenance,
         milkUnit,
         payment,
         pump,
@@ -223,9 +226,17 @@ void systemtest::initTestCase(){
         touchScreen,
         valves
         );
+
+    preparationShutdown = new PreparationShutdown(
+        coinChecker,
+        lightSensors,
+        simulation,
+        maintenance);
+
+
 }
 
-void systemtest::testEspresso() {
+void systemtest::testEspressoMedium() {
 
     // Press Start Button
     simulation->onButtonTouched(buttons::start);
@@ -297,7 +308,7 @@ void systemtest::testEspresso() {
 }
 
 
-void systemtest::testCrema() {
+void systemtest::testCremaMedium() {
 
 
     // Press Crema Button
@@ -345,7 +356,7 @@ void systemtest::testCrema() {
 }
 
 
-void systemtest::testCapuccino() {
+void systemtest::testCapuccinoMedium() {
 
 
     // Press Capuccino Button

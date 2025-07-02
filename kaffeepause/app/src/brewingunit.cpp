@@ -19,6 +19,7 @@ void BrewingUnit::reset() {
     brewingCoffee = false;
 }
 
+
 void BrewingUnit::moveWaste() {
     // TODO move Waste somewhere (Simulation add Waste part)
 }
@@ -43,17 +44,20 @@ void BrewingUnit::onPressureReached(){
 
 
 void BrewingUnit::onWaterDispensed(){
-    m_waterValve->setValveState(valveState::closed); // Ventil schließen
-    brewingCoffee = false;
-    moveWaste();
-    if (m_coffeeWaiter->getTypeCoffee() == coffee::cappuccino) {
-        m_coffeeStateMachine->trigger(event::BREWING_COMPLETET);
-        m_pumpControl->setBrewCoffee(false);
-        m_pumpControl->setPressureReached(false);
-        emit brewingFinished();
-    } else {
-        m_coffeeStateMachine->trigger(event::COFFEE_READY_TO_TAKEOUT);
-        emit coffeeReady();
+    if (brewingCoffee){
+        m_waterValve->setValveState(valveState::closed); // Ventil schließen
+        brewingCoffee = false;
+        moveWaste();
+        if (m_coffeeWaiter->getTypeCoffee() == coffee::cappuccino) {
+            m_coffeeStateMachine->trigger(event::BREWING_COMPLETET);
+            m_pumpControl->setBrewCoffee(false);
+            m_pumpControl->setPressureReached(false);
+            emit brewingFinished();
+        } else {
+            m_coffeeStateMachine->trigger(event::COFFEE_READY_TO_TAKEOUT);
+            emit coffeeReady();
+        }
     }
 }
+
 

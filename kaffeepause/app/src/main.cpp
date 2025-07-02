@@ -15,6 +15,7 @@
 #include "coffeeselection.h"
 #include "maintenance.h"
 #include "startupmanager.h"
+#include "preparationshutdown.h"
 
 /* TODO logging #include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
@@ -217,6 +218,7 @@ int main(int argc, char *argv[])
                                     &m_coinChecker,
                                     &m_grinder,
                                     m_lightSensors,
+                                    &m_maintenance,
                                     &m_milkUnit,
                                     &m_payment,
                                     &m_pump,
@@ -226,6 +228,8 @@ int main(int argc, char *argv[])
                                     &m_touchHandler,
                                     &m_touchScreen,
                                     m_valves);
+
+    PreparationShutdown m_preparationShutdown(&m_coinChecker, m_lightSensors, &m_simulation, &m_maintenance);
 
     // Init GUI
 

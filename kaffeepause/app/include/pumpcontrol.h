@@ -25,6 +25,7 @@ public:
     void setBrewCoffee(bool brewingCoffee);
     void setMilkDispense(bool milkDispense);
     void setPressureReached(bool pressureReached);
+    void setFlushSystem(bool flushSystem);
 
 signals:
     void targetPressureReached();
@@ -40,5 +41,6 @@ private:
     bool brewingCoffee = false;
     bool milkDispense = false;
     bool pressureReached = false;
+    bool flushSystem = false;
 
 };

@@ -107,7 +107,9 @@ void MilkUnit::coolMilk(){
     }else if(m_simulation->getMilkTemperature() <= 3){
         qDebug() << "MilkUnit::updateMilkCoolingTimer start Temperature: " << m_simulation->getMilkTemperature();
         updateMilkCoolingTimer->stop();
-        milkToWarm = 0;
+        if (milkToWarm < 30){
+            milkToWarm = 0;
+        }
     }
 }
 

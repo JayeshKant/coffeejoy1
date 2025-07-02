@@ -21,6 +21,7 @@ private:
 public slots:
     void updateTemperatureVisual(int temperature);  // 🔥
     void updateGrindingVisual(int current , int total); // grinding visual
+    void updateMilkTemperatureVisual(int temperature);
 
 };
 

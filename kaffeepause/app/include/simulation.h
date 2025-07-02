@@ -38,6 +38,7 @@ public:
 
     void start();
     void reset();
+    void shutdown();
 
     void setPumpControl(PumpControl* m_pumpControl);
     void setTouchHandler(TouchHandler* m_touchHandler);
@@ -97,6 +98,7 @@ public:
     int getCurrentWaterAmount();
     int getBeansGrinded();
     int getWaterDispensed();
+    int getMaxWaterAmount();
 
     // For PumpControl
 
@@ -116,6 +118,9 @@ public:
     // For Water
     void fillFreshWaterValve();
 
+    // Waste
+    void setGrindedWaste(int wasteAmount);
+    int getGrindedWaste();
 
 signals:
     void notEnoughWater(); //TODO implement in maintenace / coffeestatemachine
@@ -126,6 +131,7 @@ signals:
     void milkDispensed();
     void grindedBeans();
     void grindingProgress(int gramsGround, int totalRequired);
+    void milkTemperatureChanged(int temperature);
     void buttonTouched();
     void coinInserted(CoinData coinClicked);
 
@@ -148,6 +154,7 @@ private:
     QTimer* updateLightSensorTimer;
     QTimer* updateMilkHeatingTimer;
     QTimer* fillFreshWaterValveTimer;
+    QTimer* pollCoffeeBeanWasteTimer;
 
     //Maps for Coins
     map<coinType, int> coinLevelMap;
@@ -202,4 +209,6 @@ private:
 
     const int maxWasteWaterInML = 3000;
     int wasteWater = 0;
+    int grindedWaste = 0;
+
 };

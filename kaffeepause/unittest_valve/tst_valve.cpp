@@ -1,4 +1,4 @@
-#include <QTest>
+ #include <QTest>
 #include "valve.h"
 
 class ValveTest : public QObject

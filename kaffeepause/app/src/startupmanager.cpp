@@ -8,6 +8,7 @@ StartUpManager::StartUpManager(
     CoinChecker* m_coinChecker,
     Grinder* m_grinder,
     array<LightSensor*, 9> m_lightSensors,
+    Maintenance* m_maintenance,
     MilkUnit* m_milkUnit,
     Payment* m_payment,
     Pump* m_pump,
@@ -26,6 +27,7 @@ StartUpManager::StartUpManager(
         m_coinChecker(m_coinChecker),
         m_grinder(m_grinder),
         m_lightSensors(m_lightSensors),
+        m_maintenance(m_maintenance),
         m_milkUnit(m_milkUnit),
         m_payment(m_payment),
         m_pump(m_pump),
@@ -64,6 +66,8 @@ void StartUpManager::startUp(){
     m_pumpControl->start();
     m_thermoblock->start();
 
+    resetAll();
+
 }
 
 void StartUpManager::resetAll(){ //reset everything, that should be reset by new start
@@ -83,5 +87,13 @@ void StartUpManager::resetAll(){ //reset everything, that should be reset by new
         lightSensor->reset();
     }
 
-    emit resetComplete();
+    m_maintenance->fullMaintenanceSchedule();
+
+    if (m_maintenance->getOpenIssues().empty()){
+        emit resetComplete();
+    } else {
+        m_coffeeStateMachine->trigger(event::ABORT_REQUESTED);
+    }
+
+
 }

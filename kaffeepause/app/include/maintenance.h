@@ -2,6 +2,8 @@
 
 #include <QObject>
 #include <QDebug>
+#include <QEventLoop>
+#include <QTimer>
 
 #include "pumpcontrol.h"
 #include "thermoblock.h"
@@ -18,7 +20,7 @@ using std::vector;
 
 enum class maintenanceStates{full, empty};
 enum class maintenanceInstructions{clean, refill};
-enum class issues{dirtyWater, milkEmpty, milkChange, wasteDisposal, cremaBeans, espressoBeans};
+enum class issues{dirtyWater, milkEmpty, milkChange, wasteDisposal, cremaBeans, espressoBeans, noWater};
 
 
 class Maintenance : public QObject {
@@ -27,22 +29,31 @@ class Maintenance : public QObject {
 public:
 
     Maintenance(CoffeeStateMachine* m_coffeeStateMachine,
-                Simulation* m_simulation, PumpControl* m_pumpControl,
-                Pump* m_waterPump, Valve* m_waterValve,
-                Thermoblock* m_thermoblock, Valve* m_milkValve,
+                Simulation* m_simulation,
+                PumpControl* m_pumpControl,
+                Pump* m_waterPump,
+                Valve* m_waterValve,
+                Thermoblock* m_thermoblock,
+                Valve* m_milkValve,
                 array<LightSensor*,7> m_maintenanceLightSensor,
-                Valve* m_freshWaterSupplyValve, MilkUnit* m_milkUnit, QObject* parent = nullptr);
+                Valve* m_freshWaterSupplyValve,
+                MilkUnit* m_milkUnit,
+                QObject* parent = nullptr);
     ~Maintenance();
 
 
     void fullMaintenanceSchedule();
 
+    void shutdown();
+
+    vector<issues> getOpenIssues();
+
 signals:
     void waterRefilled();
 
 private slots:
-    void onWaterRefilled();
-
+    void onFlushSystem();
+    void onTargetPressureReached();
 
 private:
 
@@ -70,6 +81,7 @@ private:
     Thermoblock* m_thermoblock;
     MilkUnit* m_milkUnit;
 
+    QEventLoop* waitOnFlush;
     //QTimer* checkMilkTemperatureTimer;
     QTimer* refillWaterTimer = new QTimer(this);
 

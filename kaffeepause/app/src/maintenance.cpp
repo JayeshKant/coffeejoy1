@@ -24,6 +24,15 @@ Maintenance::Maintenance(CoffeeStateMachine* m_coffeeStateMachine,
     cupInsertedLightSensor = m_maintenanceLightSensors.at(5);
     freshWaterLevelLightSensor = m_maintenanceLightSensors.at(6);
 
+    connect(m_pumpControl, &PumpControl::targetPressureReached, this, &Maintenance::onTargetPressureReached);
+    connect(m_simulation, &Simulation::waterDispensed, this, &Maintenance::onFlushSystem);
+    connect(m_simulation, &Simulation::notEnoughWater, this, &Maintenance::refillWater);
+    connect(m_simulation, &Simulation::notEnoughBeans, this, &Maintenance::checkCremaBeansLevel);
+    connect(m_simulation, &Simulation::notEnoughBeans, this, &Maintenance::checkEspressoBeansLevel);
+    connect(m_simulation, &Simulation::notEnoughMilk, this, &Maintenance::checkMilkLevel);
+
+
+    // connect(m_simulation, &Simulation::waterDispensed, waitOnFlush, &QEventLoop::quit);
 
 }
 
@@ -37,9 +46,40 @@ Maintenance::~Maintenance() {
     delete freshWaterLevelLightSensor;
 }
 
+void Maintenance::shutdown(){
+
+}
+
+void Maintenance::fullMaintenanceSchedule(){
+    // flushTheSystem();
+    qDebug() << "Maintenance::fullMaintenanceSchedule system flushed";
+
+    qDebug() << "Maintenance::fullMaintenanceSchedule waiting for continue signal...";
+    // waitOnFlush->exec();  // hier wird gewartet
+
+    refillWater();
+    qDebug() << "Maintenance::fullMaintenanceSchedule water refilled";
+    checkCremaBeansLevel();
+    qDebug() << "Maintenance::fullMaintenanceSchedule checked beans";
+    checkEspressoBeansLevel();
+    qDebug() << "Maintenance::fullMaintenanceSchedule checked espresso beans";
+    checkMilkLevel();
+    qDebug() << "Maintenance::fullMaintenanceSchedule checked milk level";
+    checkWasteDisposal();
+    qDebug() << "Maintenance::fullMaintenanceSchedule checked waste disposal";
+    checkMilkTemperature();
+    qDebug() << "Maintenance::fullMaintenanceSchedule checked milk temperature";
+    checkThermoblockTemperature();
+    qDebug() << "Maintenance::fullMaintenanceSchedule checked water temperature";
+}
+
+vector<issues> Maintenance::getOpenIssues(){
+    return this->openIssues;
+}
+
 void Maintenance::refillWater(){
     m_waterValve->setValveState(valveState::closed);
-    m_freshWaterSupplyValve->setValveState(valveState::open);    // TODO
+    m_freshWaterSupplyValve->setValveState(valveState::open);
 
     refillWaterTimer = new QTimer(this);
     connect(refillWaterTimer, &QTimer::timeout, this, [this](){
@@ -52,18 +92,23 @@ void Maintenance::refillWater(){
     refillWaterTimer->start(1000);
 }
 
-void Maintenance::onWaterRefilled(){
-    flushTheSystem();
-}
-
 void Maintenance::flushTheSystem(){
-    m_waterPump->setRunning(false);
+
     m_pumpControl->setTargetPressure(3000);
-    m_waterValve->setValveState(valveState::open);
-    m_waterPump->setRunning(true);
-
-
+    m_pumpControl->setFlushSystem(true);
 }
+
+void Maintenance::onTargetPressureReached(){
+    m_waterValve->setValveState(valveState::open);
+    m_simulation->pumpWater(30, 10); //30 ml with 10ml /s flushen
+}
+
+void Maintenance::onFlushSystem(){
+    m_pumpControl->setFlushSystem(false);
+    m_waterValve->setValveState(valveState::closed);
+}
+
+
 
 bool Maintenance::checkDirtyWater(){
     if(dirtyWaterLightSensor->detectLight() == detection::lightBlocked){
@@ -102,17 +147,12 @@ bool Maintenance::checkMilkLevel(){
 }
 
 bool Maintenance::checkMilkTemperature(){
-    if(m_simulation->getMilkTemperature() >= 30){
+    if(m_milkUnit->getMilkToWarm() >= 30){
         qDebug() << "Maintenance::checkMilkToWarm Milk was too warm too long and"
                     " needs to be changed.";
         this->openIssues.push_back(issues::milkChange);
         return false;
-    }else if(m_simulation->getMilkTemperature() > 8){
-        //emit milkNeedsToBeCooled;
-        qDebug() << "Maintenance::checkMilkToWarm waiting on milk cooling.";
-        // QTimer
-
-    }else  {
+    } else {
         qDebug() << "Maintenance::checkMilkToWarm Milk Temperature is okay";
         return true;
     }
@@ -121,7 +161,7 @@ bool Maintenance::checkMilkTemperature(){
 void onMilkNeedsToBeCooled(); // TODO
 
 bool Maintenance::checkWasteDisposal(){
-    if(milkLevelLightSensor->detectLight() == detection::lightBlocked){
+    if(wasteDisposaleLightSensor->detectLight() == detection::lightBlocked){
         openIssues.push_back(issues::wasteDisposal);
         return false;
     }else{

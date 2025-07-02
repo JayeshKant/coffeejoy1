@@ -2,6 +2,7 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     ../app \
+    ../unittest_coffeewaiter \
     ../unittest_coinchecker \
     ../unittest_coinsensor \
     ../unittest_thermoblock \
