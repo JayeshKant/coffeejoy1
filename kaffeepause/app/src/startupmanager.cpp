@@ -50,6 +50,15 @@ StartUpManager::StartUpManager(
 
     connect(m_touchHandler, &TouchHandler::startUp, this, &StartUpManager::startUp);
 
+    connect(m_maintenance, &Maintenance::maintenanceCheckComplete, this, &StartUpManager::onMaintenance);
+    connect(waitingForResetComplete, &QTimer::timeout, this, [this, m_coffeeStateMachine] (){
+        if (resetDone == true){
+            resetDone = false;
+            waitingForResetComplete->stop();
+            m_coffeeStateMachine->trigger(event::START_UP);
+        }
+    });
+
 }
 
 
@@ -58,6 +67,7 @@ StartUpManager::~StartUpManager(){
 }
 
 void StartUpManager::startUp(){
+    qDebug() << "StartUpManager::startUp() currentState: " << (int)m_coffeeStateMachine->getCurrentState();
     m_simulation->start();
     m_coinChecker->start();
     for (LightSensor* lightSensor : m_lightSensors) {
@@ -68,9 +78,13 @@ void StartUpManager::startUp(){
 
     resetAll();
 
+    waitingForResetComplete->start(500);
 }
 
+
 void StartUpManager::resetAll(){ //reset everything, that should be reset by new start
+    qDebug() << "StartUpManager::resetAll() currentState: " << (int)m_coffeeStateMachine->getCurrentState();
+    resetDone = false;
     m_brewingUnit->reset();
     m_coffeeWaiter->reset();
     m_coffeeSelection->reset();
@@ -89,11 +103,13 @@ void StartUpManager::resetAll(){ //reset everything, that should be reset by new
 
     m_maintenance->fullMaintenanceSchedule();
 
+}
+
+void StartUpManager::onMaintenance(){
     if (m_maintenance->getOpenIssues().empty()){
-        emit resetComplete();
+        qDebug() << "StartUpManager::resetAll no issues";
+        resetDone = true;
     } else {
         m_coffeeStateMachine->trigger(event::ABORT_REQUESTED);
     }
-
-
 }

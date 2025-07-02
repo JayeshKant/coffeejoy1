@@ -7,6 +7,7 @@
 #include "coinchecker.h"
 #include "simulation.h"
 #include "maintenance.h"
+#include "touchhandler.h"
 
 using std::array;
 
@@ -18,6 +19,7 @@ public:
         array<LightSensor*, 9> m_lightSensors,
         Simulation* m_simulation,
         Maintenance* m_maintenance,
+        TouchHandler* m_touchHandler,
         QObject* parent = nullptr);
     ~PreparationShutdown();
     void shutdown();
@@ -27,4 +29,5 @@ private:
     array<LightSensor*, 9> m_lightSensors;
     Simulation* m_simulation;
     Maintenance* m_maintenance;
+    TouchHandler* m_touchHandler;
 };

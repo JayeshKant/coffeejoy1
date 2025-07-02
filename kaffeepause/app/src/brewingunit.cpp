@@ -27,6 +27,7 @@ void BrewingUnit::moveWaste() {
 void BrewingUnit::brewCoffee() {
     qDebug() << "BrewingUnit::brewCoffee starting pump";
     brewingCoffee = true;
+    m_pumpControl->setTargetPressure(pressure);
     m_pumpControl->setBrewCoffee(true);
 }
 

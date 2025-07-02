@@ -32,7 +32,7 @@ Maintenance::Maintenance(CoffeeStateMachine* m_coffeeStateMachine,
     connect(m_simulation, &Simulation::notEnoughMilk, this, &Maintenance::checkMilkLevel);
 
 
-    // connect(m_simulation, &Simulation::waterDispensed, waitOnFlush, &QEventLoop::quit);
+    connect(m_simulation, &Simulation::waterDispensed, waitOnFlush, &QEventLoop::quit);
 
 }
 
@@ -51,11 +51,12 @@ void Maintenance::shutdown(){
 }
 
 void Maintenance::fullMaintenanceSchedule(){
-    // flushTheSystem();
+    qDebug() << "Maintenance::fullMaintenanceSchedule currentState: " << (int)m_coffeeStateMachine->getCurrentState();
+    flushTheSystem();
     qDebug() << "Maintenance::fullMaintenanceSchedule system flushed";
 
     qDebug() << "Maintenance::fullMaintenanceSchedule waiting for continue signal...";
-    // waitOnFlush->exec();  // hier wird gewartet
+    waitOnFlush->exec();  // hier wird gewartet
 
     refillWater();
     qDebug() << "Maintenance::fullMaintenanceSchedule water refilled";
@@ -71,6 +72,10 @@ void Maintenance::fullMaintenanceSchedule(){
     qDebug() << "Maintenance::fullMaintenanceSchedule checked milk temperature";
     checkThermoblockTemperature();
     qDebug() << "Maintenance::fullMaintenanceSchedule checked water temperature";
+
+
+    qDebug() << "Maintenance::fullMaintenanceSchedule currentState: " << (int)m_coffeeStateMachine->getCurrentState();
+    emit maintenanceCheckComplete();
 }
 
 vector<issues> Maintenance::getOpenIssues(){
@@ -93,19 +98,22 @@ void Maintenance::refillWater(){
 }
 
 void Maintenance::flushTheSystem(){
-
     m_pumpControl->setTargetPressure(3000);
     m_pumpControl->setFlushSystem(true);
 }
 
 void Maintenance::onTargetPressureReached(){
-    m_waterValve->setValveState(valveState::open);
-    m_simulation->pumpWater(30, 10); //30 ml with 10ml /s flushen
+    if(m_pumpControl->getFlushSystem()){
+        m_waterValve->setValveState(valveState::open);
+        m_simulation->pumpWater(30, 10); //30 ml with 10ml /s flushen
+    }
 }
 
 void Maintenance::onFlushSystem(){
     m_pumpControl->setFlushSystem(false);
+    m_pumpControl->setPressureReached(false);
     m_waterValve->setValveState(valveState::closed);
+
 }
 
 

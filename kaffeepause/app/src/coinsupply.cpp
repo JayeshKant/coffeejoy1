@@ -143,6 +143,7 @@ bool CoinSupply::releaseCoin(coinType l_type){
             availableRessources = sensEUR2->getAvailableRessourcesInMicrometer(l_type);
             if(availableRessources >= m_knownCoins.at(l_type).widthMicrometer){
                 m_simulation->setCoinLevel(l_type,(availableRessources-coinWidth));
+                m_simulation->addToCoinReturnMap(l_type);
                 break;
             };
             qDebug() << "CoinSupply::releaseCoin no coins to release of type: "
@@ -155,6 +156,7 @@ bool CoinSupply::releaseCoin(coinType l_type){
             availableRessources = sensEUR1->getAvailableRessourcesInMicrometer(l_type);
             if(availableRessources >= m_knownCoins.at(l_type).widthMicrometer){
                 m_simulation->setCoinLevel(l_type,(availableRessources-coinWidth));
+                m_simulation->addToCoinReturnMap(l_type);
                 break;
             };
             qDebug() << "CoinSupply::releaseCoin no coins to release of type: "
@@ -165,6 +167,7 @@ bool CoinSupply::releaseCoin(coinType l_type){
             availableRessources = sensEUR05->getAvailableRessourcesInMicrometer(l_type);
             if(availableRessources >= m_knownCoins.at(l_type).widthMicrometer){
                 m_simulation->setCoinLevel(l_type,(availableRessources-coinWidth));
+                m_simulation->addToCoinReturnMap(l_type);
                 break;
             };
             qDebug() << "CoinSupply::releaseCoin no coins to release of type: "
@@ -176,6 +179,7 @@ bool CoinSupply::releaseCoin(coinType l_type){
             availableRessources = sensEUR02->getAvailableRessourcesInMicrometer(l_type);
             if(availableRessources >= m_knownCoins.at(l_type).widthMicrometer){
                 m_simulation->setCoinLevel(l_type,(availableRessources-coinWidth));
+                m_simulation->addToCoinReturnMap(l_type);
                 break;
             };
             qDebug() << "CoinSupply::releaseCoin no coins to release of type: "
@@ -186,6 +190,7 @@ bool CoinSupply::releaseCoin(coinType l_type){
             availableRessources = sensEUR01->getAvailableRessourcesInMicrometer(l_type);
             if(availableRessources >= m_knownCoins.at(l_type).widthMicrometer){
                 m_simulation->setCoinLevel(l_type,(availableRessources-coinWidth));
+                m_simulation->addToCoinReturnMap(l_type);
                 break;
             };
             qDebug() << "CoinSupply::releaseCoin no coins to release of type: "
@@ -197,6 +202,7 @@ bool CoinSupply::releaseCoin(coinType l_type){
             availableRessources = sensEUR005->getAvailableRessourcesInMicrometer(l_type);
             if(availableRessources >= m_knownCoins.at(l_type).widthMicrometer){
                 m_simulation->setCoinLevel(l_type,(availableRessources-coinWidth));
+                m_simulation->addToCoinReturnMap(l_type);
                 break;
             }else if(availableRessources == 0){
                 qDebug() << "CoinSupply::releaseCoin couldn't release the remaining Change, Sorry!";

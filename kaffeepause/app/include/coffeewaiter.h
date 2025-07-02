@@ -54,6 +54,11 @@ public:
     void heatUpWater(mode thermoBlockMode);
     void dispenseCoffee();
 
+    intensity getCoffeeIntensity();
+    void setCoffeeIntensity(intensity coffeeIntensity);
+
+    void setTypeCoffee(coffee typeCoffee);
+
 
 signals:
     void grindCoffee();
@@ -79,5 +84,6 @@ private:
     int amountWater = 0; //in ml
     int amountMilk = 0; //in ml
     int amountBeans = 0; //in g
+
 };
 

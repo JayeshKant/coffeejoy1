@@ -17,7 +17,6 @@ SOURCES += \
     ../app/src/coinchecker.cpp \
     ../app/src/coinsensor.cpp \
     ../app/src/coinsupply.cpp \
-    ../app/src/decalcification.cpp \
     ../app/src/grinder.cpp \
     ../app/src/maintenance.cpp \
     ../app/src/milkunit.cpp \
@@ -42,7 +41,6 @@ HEADERS += \
     ../app/include/coinchecker.h \
     ../app/include/coinsensor.h \
     ../app/include/coinsupply.h \
-    ../app/include/decalcification.h \
     ../app/include/grinder.h \
     ../app/include/maintenance.h \
     ../app/include/milkunit.h \

@@ -47,7 +47,8 @@ void PumpControl::checkCurrentPressure(){
 
     if (brewingCoffee || milkDispense || flushSystem) {
         startPump();
-        qDebug() << "PumpControl::checkCurrentPressure currentPressure: " << m_simulation->getCurrentPressure();
+        qDebug() << "PumpControl::checkCurrentPressure currentPressure: " << m_simulation->getCurrentPressure()
+                 << "pressureReached: " << pressureReached;
         if ((m_simulation->getCurrentPressure() >= targetPressure && !pressureReached)) {
             pressureReached = true;
             emit targetPressureReached();
@@ -79,4 +80,8 @@ void PumpControl::setPressureReached(bool pressureReached){
 
 void PumpControl::setFlushSystem(bool flushSystem){
     this->flushSystem = flushSystem;
+}
+
+bool PumpControl::getFlushSystem(){
+    return this->flushSystem;
 }

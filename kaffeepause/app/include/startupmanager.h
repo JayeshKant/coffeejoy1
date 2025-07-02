@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QObject>
+#include <QEventLoop>
 
 #include "brewingunit.h"
 #include "coffeeselection.h"
@@ -49,12 +50,15 @@ public:
 
     void startUp();
     void resetAll();
+    void onMaintenance();
 
+    bool getResetDone() { return this->resetDone; };
 
 signals:
     void startUpComplete();
     void resetComplete();
     void attentionNeeded();
+
 
 private:
     BrewingUnit* m_brewingUnit;
@@ -77,5 +81,10 @@ private:
     Valve* m_steamValve;
     Valve* m_milkValve;
     Valve* m_freshWaterSupplyValve;
+
+    QTimer* waitingForResetComplete = new QTimer(this);
+
+
+    bool resetDone = false;
 
 };

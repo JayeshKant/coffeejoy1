@@ -163,3 +163,21 @@ void CoffeeWaiter::onCupInserted(){
     emit startBrewing();
 }
 
+intensity CoffeeWaiter::getCoffeeIntensity() {
+    return this->coffeeIntensity;
+}
+void CoffeeWaiter::setCoffeeIntensity(intensity coffeeIntensity) {
+    this->coffeeIntensity = coffeeIntensity;
+}
+
+void CoffeeWaiter::setTypeCoffee(coffee typeCoffee){
+    this->typeCoffee = typeCoffee;
+}
+
+
+
+
+
+
+
+

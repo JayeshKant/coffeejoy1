@@ -14,6 +14,7 @@ void Valve::reset(){
 void Valve::setValveState(valveState newState){
     qDebug () << "Valve::setValveState Type: " << (int)type << "New State: " << int(newState);
     this->currentValveState = newState;
+    emit valveStateChanged(type, newState);
 }
 
 valveState Valve::getValveState(){

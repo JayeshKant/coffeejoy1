@@ -32,23 +32,6 @@ private:
     Simulation* m_simulation;
     bool coinIsValid;
     coinType detectedCoinType;
+    coinType coinSensorType;
 };
 
-
-/*
-class CoinSensor
-{
-public:
-    CoinSensor(int thickness); //without weight for now
-    ~CoinSensor();
-    int getAvaialableRessourcesInMicrometer();
-    void setAvailableRessourcesInMicrometer();
-    int getCoinAmounts();
-    void setCoinAmounts();
-    bool coinReceived(int); //time in ms seconds to evaluate
-
-private:
-    int mThickness;
-
-};
-*/

@@ -28,9 +28,10 @@ public:
     systemtest();
     ~systemtest();
 
-    void initTestCase();
+
 
 private slots:
+    void initTestCase();
     void testEspressoMedium(); //Testing Change
     void testCremaMedium();
     void testCapuccinoMedium();
@@ -76,7 +77,7 @@ private:
 };
 
 systemtest::systemtest() {
-    initTestCase();
+
 }
 
 systemtest::~systemtest() {}
@@ -231,7 +232,8 @@ void systemtest::initTestCase(){
         coinChecker,
         lightSensors,
         simulation,
-        maintenance);
+        maintenance,
+        touchHandler);
 
 
 }
@@ -240,6 +242,10 @@ void systemtest::testEspressoMedium() {
 
     // Press Start Button
     simulation->onButtonTouched(buttons::start);
+
+    QTRY_COMPARE(startUpManager->getResetDone(), true);
+
+    QTRY_COMPARE(startUpManager->getResetDone(), false);
 
     QCOMPARE(coffeeStateMachine->getCurrentState(), state::readySelectCoffee);
 

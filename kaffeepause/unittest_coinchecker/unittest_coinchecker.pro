@@ -20,22 +20,17 @@ SOURCES += \
     ../app/src/coinchecker.cpp \
     ../app/src/coinsensor.cpp \
     ../app/src/coinsupply.cpp \
-    ../app/src/decalcification.cpp \
     ../app/src/grinder.cpp \
     ../app/src/lightsensor.cpp \
-    ../app/src/maintenance.cpp \
     ../app/src/milkunit.cpp \
     ../app/src/payment.cpp \
-    ../app/src/preparationshutdown.cpp \
     ../app/src/pump.cpp \
     ../app/src/pumpcontrol.cpp \
     ../app/src/simulation.cpp \
-    ../app/src/startupmanager.cpp \
     ../app/src/thermoblock.cpp \
     ../app/src/touchhandler.cpp \
     ../app/src/touchscreen.cpp \
     ../app/src/valve.cpp \
-    ../app/src/waterpump.cpp \
     unittest_coinchecker.cpp
 
 HEADERS += \
@@ -46,25 +41,19 @@ HEADERS += \
     ../app/include/coffeetypes.h \
     ../app/include/coffeewaiter.h \
     ../app/include/coinchecker.h \
-    ../app/include/coindata.h \
     ../app/include/coinsensor.h \
     ../app/include/coinsupply.h \
-    ../app/include/decalcification.h \
     ../app/include/grinder.h \
     ../app/include/lightsensor.h \
-    ../app/include/maintenance.h \
     ../app/include/milkunit.h \
     ../app/include/payment.h \
-    ../app/include/preparationshutdown.h \
     ../app/include/pump.h \
     ../app/include/pumpcontrol.h \
     ../app/include/simulation.h \
-    ../app/include/startupmanager.h \
     ../app/include/thermoblock.h \
     ../app/include/touchhandler.h \
     ../app/include/touchscreen.h \
     ../app/include/valve.h \
-    ../app/include/waterpump.h \
     unittest_coinchecker.h
 
 TARGET = unittest_coinchecker

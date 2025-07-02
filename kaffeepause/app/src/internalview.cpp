@@ -1,12 +1,13 @@
 #include "internalview.h"
 #include "ui_internalview.h"
-#include "thermoblock.h"
-
+#include <QLabel>
 internalview::internalview(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::internalview)
 {
     ui->setupUi(this);
+    const QSize targetSize(1891, 1500);
+    setFixedSize(targetSize);
 }
 
 internalview::~internalview()
@@ -93,4 +94,65 @@ void internalview::updateMilkTemperatureVisual(int temperature)
     QPixmap pix(imagePath);
     ui->milktempthermo->setPixmap(pix.scaled(ui->milktempthermo->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
     ui->milkTempValue->setText(QString::number(temperature)+ "°C");
+}
+
+void internalview::updatePressureVisual(int pressure)
+{
+
+    QString imagePath;
+    if (pressure < 1000)
+        imagePath = ":/water0.png";
+    else if (pressure < 2000)
+        imagePath = ":/small1.png";
+    else if (pressure < 3000)
+        imagePath = ":/small2.png";
+    else if (pressure < 4000)
+        imagePath = ":/small2";
+    else
+        imagePath = ":/small2";
+
+
+    QString imagePath1;
+    if (pressure < 4000)
+        imagePath1 = ":/bentpipe2";
+    else if (pressure < 5000)
+        imagePath1 = ":/bentpipe3";
+    else if (pressure < 6000)
+        imagePath1 = ":/bentpipe3";
+    else
+        imagePath1 = ":/bentpipe3";
+
+    QPixmap pix1(imagePath);
+    ui->straightpipe->setPixmap(pix1.scaled(ui->straightpipe->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    QPixmap pix(imagePath1);
+    ui->bentpipe->setPixmap(pix.scaled(ui->bentpipe->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    ui->pressureProgress->setText(QString::number(pressure)+ "bar");
+
+
+}
+
+void internalview::updateValveVisual(valveType type, valveState state)
+{
+    QLabel* valvelabel = nullptr;
+    switch(type) {
+    case valveType::water:
+        valvelabel = ui->WaterValve;
+        break;
+    case valveType::milk:
+        valvelabel = ui->Milkvalve;
+        break;
+    default:
+        break;
+    }
+    if (!valvelabel)
+        return;
+
+    QString path;
+    if (state == valveState::open)
+        path = ":/valve2.png";
+    else
+        path = ":/valve1.png";
+
+    QPixmap pix(path);
+    valvelabel->setPixmap(pix.scaled(valvelabel->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }

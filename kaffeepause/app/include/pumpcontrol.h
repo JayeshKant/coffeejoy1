@@ -26,6 +26,7 @@ public:
     void setMilkDispense(bool milkDispense);
     void setPressureReached(bool pressureReached);
     void setFlushSystem(bool flushSystem);
+    bool getFlushSystem();
 
 signals:
     void targetPressureReached();

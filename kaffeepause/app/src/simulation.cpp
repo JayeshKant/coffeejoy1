@@ -28,12 +28,12 @@ Simulation::Simulation(TouchScreen* m_touchScreen, CoinSensor* m_coinSensor, Pum
         {coinType::EUR02, 0},
         {coinType::EUR05, 0},
         {coinType::EUR1, 0},
-        {coinType::EUR2, 0}
+        {coinType::EUR2, 0},
+        {coinType::INVALID, 0}
+
     };
 
 
-
-    //Start Values TODO from file
     qDebug() << "Simulation: Initial Values for lightSensorsStatusMap";
     this->lightSensorsStatusMap = {
         {lightSensors::hopper, detection::lightReceived},
@@ -108,14 +108,16 @@ void Simulation::heatMilk(){
 
 
 void Simulation::start(){
+    qDebug() << "Simulation::start starting all Timers";
     pressureTimer->start(1000);
     fillFreshWaterValveTimer->start(1000);
-    updateMilkHeatingTimer->start(20000); // TODO stop when shutting down
-    updateLightSensorTimer->start(3000); // TODO stop when shutting down
+    updateMilkHeatingTimer->start(20000);
+    updateLightSensorTimer->start(3000);
 
 }
 
 void Simulation::shutdown(){
+    qDebug() << "Simulation::stop stoping all Timers";
     pressureTimer->stop();
     fillFreshWaterValveTimer->stop();
     updateMilkHeatingTimer->stop();
@@ -130,7 +132,8 @@ void Simulation::reset(){
         {coinType::EUR02, 0},
         {coinType::EUR05, 0},
         {coinType::EUR1, 0},
-        {coinType::EUR2, 0}
+        {coinType::EUR2, 0},
+        {coinType::INVALID, 0}
     };
 
 
@@ -178,7 +181,9 @@ void Simulation::reset(){
     milkTemperature = 14;
 }
 
-
+void Simulation::addToCoinReturnMap(coinType type){
+    coinReturnMap.at(type) += 1;
+}
 void Simulation::setPumpControl(PumpControl* m_pumpControl){
     qDebug() << "Simulation: set PumpControl pointer";
     this->m_pumpControl = m_pumpControl;
@@ -339,6 +344,10 @@ int Simulation::getCoinReturn(coinType type){
 
 std::map<coinType, int> Simulation::getCoinLevelMap(){
     return this->coinLevelMap;
+}
+
+std::map<coinType, int> Simulation::getCoinReturnMap(){
+    return this->coinReturnMap;
 }
 
 void Simulation::setCoinLightSensorInSimulation(lightSensors name, LightSensor* lightSensorPtr){
@@ -510,6 +519,8 @@ void Simulation::pumpWater(int waterNeeded, int flowRate){
     this->flowRate = flowRate;
     this->waterInMlDispensed = 0;
 
+    qDebug() << "Simulation::pumpWater waterNeeded: " << waterNeeded << ", flowRate: " << flowRate;
+
     if (waterNeeded + 10 >= currentWaterAmount) {
         emit notEnoughWater();
         return;
@@ -579,14 +590,17 @@ void Simulation::updatePressure(){ // if pump is running, add pressure, if not, 
 
         if (currentPressure < targetPressure) {
             currentPressure += 1000;
+            emit pressureUpdated(currentPressure);
             //qDebug() << "Simulation::updatePressure increased Pressure, new Value: " << currentPressure;
         } else if (currentPressure > targetPressure){
             qDebug() << "Simulation::updatePressure Pressure to High! Value: " << currentPressure;
             emit pressureToHigh();
+            emit pressureUpdated(currentPressure);
         }
     } else {
         if (currentPressure > 0){
             currentPressure -= 1000;
+            emit pressureUpdated(currentPressure);
             qDebug() << "Simulation::updatePressure reduced Pressure, new Value: " << currentPressure;
         }
     }

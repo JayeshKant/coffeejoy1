@@ -117,7 +117,6 @@ void TouchHandler::onButtonPressed(){
     switch(pressedButton){
     case buttons::start:
         //emit signal to start the machine
-        m_stateMachine->trigger(event::START_UP);
         emit startUp();
         break;
 
@@ -166,12 +165,8 @@ void TouchHandler::onButtonPressed(){
         break;
 
     case buttons::shutdown:
-        //TODO: Maybe somewhere else?
-
-        //emit signal to start Maintenance
-        // emit m_stateMachine->shutdownRequested();
         m_stateMachine->trigger(event::SHUTDOWN_REQUESTED);
-
+        emit shutdownRequested();
         break;
     case buttons::undefined:
         break;

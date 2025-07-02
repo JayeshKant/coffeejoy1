@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <property name="layoutDirection">
-   <enum>Qt::RightToLeft</enum>
+   <enum>Qt::LayoutDirection::RightToLeft</enum>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -23,7 +23,7 @@
    <widget class="QLabel" name="mainTitle">
     <property name="geometry">
      <rect>
-      <x>340</x>
+      <x>350</x>
       <y>20</y>
       <width>221</width>
       <height>81</height>
@@ -38,7 +38,7 @@
      <string>Kaffeepause</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter</set>
+     <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
    <widget class="QPushButton" name="cremaButton">
@@ -345,7 +345,7 @@
      <string>1,00 Euro</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter</set>
+     <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="priceEspresso_2">
@@ -373,7 +373,7 @@
      <string>2,00 Euro</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter</set>
+     <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
    <widget class="QLabel" name="priceCappuccino_2">
@@ -401,7 +401,7 @@
      <string>3,00 Euro</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter</set>
+     <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
    <widget class="QPushButton" name="continue_2">
@@ -830,8 +830,8 @@ p, li { white-space: pre-wrap; }
 hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'.AppleSystemUIFont'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Ubuntu'; font-size:11pt;&quot;&gt;CoinSupply&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;CoinSupply&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
    <widget class="QTableWidget" name="coinSupplyMap">
@@ -934,6 +934,16 @@ li.checked::marker { content: &quot;\2612&quot;; }
      </property>
     </column>
    </widget>
+   <widget class="QListWidget" name="CoinSupplyList">
+    <property name="geometry">
+     <rect>
+      <x>900</x>
+      <y>720</y>
+      <width>256</width>
+      <height>192</height>
+     </rect>
+    </property>
+   </widget>
    <zorder>label</zorder>
    <zorder>emptyMachine</zorder>
    <zorder>mainTitle</zorder>
@@ -968,6 +978,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <zorder>coinSupply</zorder>
    <zorder>coinSupplyMap</zorder>
    <zorder>coinReturnMap</zorder>
+   <zorder>CoinSupplyList</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>

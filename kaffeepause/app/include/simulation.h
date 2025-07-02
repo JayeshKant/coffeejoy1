@@ -67,6 +67,7 @@ public:
     void addToCoinReturnMap(coinType);
     void setEnoughChange(bool enoughChange);
     bool getEnoughChange();
+    std::map<coinType, int> getCoinReturnMap();
 
     //For LightSensor
     void updateLightSensors();
@@ -132,6 +133,7 @@ signals:
     void grindedBeans();
     void grindingProgress(int gramsGround, int totalRequired);
     void milkTemperatureChanged(int temperature);
+    void pressureUpdated(int currentPressure);
     void buttonTouched();
     void coinInserted(CoinData coinClicked);
 
@@ -203,7 +205,7 @@ private:
 
     //PumpControl
 
-    int currentPressure = 0; // when starting always 2000 in mbar
+    int currentPressure = 0; // when starting always 0 in mbar
 
     //Waste
 

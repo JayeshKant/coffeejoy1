@@ -52,7 +52,7 @@ private:
     CoffeeWaiter* m_coffeeWaiter;
 
     int flowRate = 5; // ml / s
-
+    int pressure = 9000;
     int waterNeeded = 0;
 
     bool brewingCoffee = false;

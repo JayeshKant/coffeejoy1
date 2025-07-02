@@ -49,7 +49,9 @@ public:
     vector<issues> getOpenIssues();
 
 signals:
+    void systemFlushed();
     void waterRefilled();
+    void maintenanceCheckComplete();
 
 private slots:
     void onFlushSystem();
@@ -81,8 +83,8 @@ private:
     Thermoblock* m_thermoblock;
     MilkUnit* m_milkUnit;
 
-    QEventLoop* waitOnFlush;
-    //QTimer* checkMilkTemperatureTimer;
+    QEventLoop* waitOnFlush = new QEventLoop(this);
+    QTimer* checkMilkTemperatureTimer;
     QTimer* refillWaterTimer = new QTimer(this);
 
     LightSensor* cremaBeanLevelLightSensor;

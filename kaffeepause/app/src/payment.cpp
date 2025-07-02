@@ -30,6 +30,7 @@ Payment::~Payment() {}
 void Payment::setCoinChecker(CoinChecker* m_coinChecker) { //ask what is it doing
     this->m_coinChecker = m_coinChecker;
     connect(m_coinChecker, &CoinChecker::coinValid, this, &Payment::setCurrentAmountPaid);
+    connect(m_coinChecker, &CoinChecker::coinInvalid, this, &Payment::onCoinInvalid);
 }
 
 void Payment::setCoffeeStateMachine(CoffeeStateMachine* m_coffeeStateMachine) {
@@ -218,4 +219,10 @@ int Payment::controlledRelease(coinType l_coinType, int counterCoins){
     return releasedCoins;
 }
 
+void Payment::onCoinInvalid(){
+    qDebug() << "Payment::onCoinInvalid return invalid coin";
+    m_simulation->addToCoinReturnMap(coinType::INVALID);
+    // emit returnedInvalid();
+    m_coffeeStateMachine->trigger(event::COIN_INVALID_RETURNED);
+}
 

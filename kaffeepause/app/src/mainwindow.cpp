@@ -11,6 +11,10 @@ MainWindow::MainWindow(
     TouchScreen* m_touchScreen,
     TouchHandler* m_touchHandler,
     Thermoblock* m_thermoblock,
+    Valve* m_waterValve,
+    Valve* m_milkValve,
+    Valve* m_steamValve,
+    Valve* m_freshWaterSupplyValve,
     QWidget* parent)
 
         : QMainWindow(parent),
@@ -21,7 +25,11 @@ MainWindow::MainWindow(
         m_payment(m_payment),
         m_touchScreen(m_touchScreen),
         m_touchHandler(m_touchHandler),
-        m_thermoblock(m_thermoblock){
+        m_thermoblock(m_thermoblock),
+        m_waterValve(m_waterValve),
+        m_milkValve(m_milkValve),
+        m_steamValve(m_steamValve),
+        m_freshWaterSupplyValve(m_freshWaterSupplyValve){
 
     qDebug() << "Initilaize MainWindow";
 
@@ -82,8 +90,9 @@ MainWindow::MainWindow(
     // QTimer* updateMoneyDisplayTimer = new QTimer(this);
     // connect(updateMoneyDisplayTimer, &QTimer::timeout, this, &MainWindow::updateMoneyDisplay);
     // updateMoneyDisplayTimer->start(100);
-
+    ui->coinSupplyMap->clear();
     qDebug() << "MainWindow initialized";
+
 }
 
 MainWindow::~MainWindow()
@@ -127,6 +136,8 @@ void MainWindow::buttonClicked(){
     m_simulation->onButtonTouched(clickedButtonType);
 
 }
+
+
 
 
 void MainWindow::onCupInserted(){
@@ -261,6 +272,9 @@ void MainWindow::onInternalviewClicked()
 
         connect(m_simulation, &Simulation::milkTemperatureChanged,
                 internalViewWindow, &internalview::updateMilkTemperatureVisual);
+
+        connect(m_simulation, &Simulation::pressureUpdated,
+                internalViewWindow, &internalview::updatePressureVisual);
 
         internalViewWindow->setAttribute(Qt::WA_DeleteOnClose);
     }

@@ -39,14 +39,16 @@ void CoinChecker::checkCoin() {
 
     if (m_coinSensor->getCoinIsValid()) {
         qDebug() << "CoinChecker: coin is VALID, emitting coinValid";
-        m_coffeeStateMachine->trigger(event::COIN_VALID);
         emit coinValid();
+        m_coffeeStateMachine->trigger(event::COIN_VALID);
+
 
     } else {
         qDebug() << "CoinChecker: coin is INVALID, emitting coinInvalid";
+        emit coinInvalid();
         m_coffeeStateMachine->trigger(event::COIN_INVALID);
         //TODO trigger Invalid und auskommentieren connect in statetmachine
-        emit coinInvalid();
+
     }
 }
 

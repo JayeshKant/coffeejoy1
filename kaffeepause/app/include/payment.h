@@ -94,6 +94,8 @@ signals:
     void requiredAmountReached(); //Payment
     void paymentDone(); //Payment
     void newBalance();
+    void returnedInvalid();
+
 
 
 public slots: //needs to be Public, CoffeeStateMachine needs to connect with current state
@@ -101,6 +103,8 @@ public slots: //needs to be Public, CoffeeStateMachine needs to connect with cur
     void onRequiredAmountReached();
     void onStorageSuccess(coinType);
     void onStorageFailed(coinType);
+    void onCoinInvalid();
+
 
 private:
     Simulation* m_simulation;

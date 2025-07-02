@@ -32,5 +32,19 @@
         <file>powderpipe2.png</file>
         <file>powderpipe3.png</file>
         <file>powderpipe4.png</file>
+        <file>pump.png</file>
+        <file>valve1.png</file>
+        <file>valve2.png</file>
+        <file>water0.png</file>
+        <file>water1.png</file>
+        <file>water2.png</file>
+        <file>water3.png</file>
+        <file>water4.png</file>
+        <file>brewingunit.png</file>
+        <file>small2.png</file>
+        <file>small1.png</file>
+        <file>bentpipe1.png</file>
+        <file>bentpipe2.png</file>
+        <file>bentpipe3.png</file>
     </qresource>
 </RCC>

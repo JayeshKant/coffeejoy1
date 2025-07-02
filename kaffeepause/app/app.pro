@@ -35,13 +35,11 @@ SOURCES += \
     src/coinchecker.cpp \
     src/coinsensor.cpp \
     src/coinsupply.cpp \
-    src/decalcification.cpp \
     src/grinder.cpp \
     src/main.cpp \
     src/maintenance.cpp \
     src/mainwindow.cpp \
     src/milkunit.cpp \
-    src/mycoffeegui.cpp \
     src/payment.cpp \
     src/preparationshutdown.cpp \
     src/pump.cpp \
@@ -51,8 +49,7 @@ SOURCES += \
     src/thermoblock.cpp \
     src/touchhandler.cpp \
     src/touchscreen.cpp \
-    src/valve.cpp \
-    src/waterpump.cpp
+    src/valve.cpp
 
 # The header files (e.g. *.h)
 HEADERS += \
@@ -62,14 +59,11 @@ HEADERS += \
     include/coffeestatemachine.h \
     include/coffeetypes.h \
     include/coinchecker.h \
-    include/decalcification.h \
-    include/errorcase.h \
     include/grinder.h \
     include/mainWindow.h \
     include/coffeewaiter.h \
     include/maintenance.h \
     include/milkunit.h \
-    include/mycoffeegui.h \
     include/payment.h \
     include/preparationshutdown.h \
     include/pump.h \
@@ -83,7 +77,6 @@ HEADERS += \
     include/coinsupply.h \
     include/lightsensor.h \
     include/simulation.h \
-    include/waterpump.h \
     include/splashscreen.h \
     include/internalview.h
 

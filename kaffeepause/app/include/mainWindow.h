@@ -19,7 +19,7 @@
 #include "simulation.h"
 #include "lightsensor.h"
 #include "internalview.h"
-
+#include "valve.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -37,6 +37,10 @@ public:
         TouchScreen* m_touchScreen,
         TouchHandler* m_touchHandler,
         Thermoblock* m_thermoblock,
+        Valve* m_waterValve,
+        Valve* m_milkValve,
+        Valve* m_steamValve,
+        Valve* m_freshWaterSupplyValve,
         QWidget* parent = nullptr);
 
     ~MainWindow();
@@ -59,7 +63,12 @@ private:
     TouchHandler* m_touchHandler;
     internalview* internalViewWindow = nullptr;
     Thermoblock* m_thermoblock = nullptr;
+    Valve* m_waterValve = nullptr;
+    Valve* m_milkValve = nullptr;
+    Valve* m_steamValve = nullptr;
+    Valve* m_freshWaterSupplyValve = nullptr;
 
+    void updateListView();
 private slots:
     void buttonClicked();
     void continueProgress(); // Slot für den Fortsetzen-Button während der Fortschrittsanimation
@@ -70,4 +79,5 @@ private slots:
     void updateMoneyDisplay(); // Aktualisiert die Geldanzeige
 
     void onInternalviewClicked();
+
 };

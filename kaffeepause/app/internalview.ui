@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1668</width>
-    <height>891</height>
+    <width>1911</width>
+    <height>949</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QLabel" name="temperature">
    <property name="geometry">
     <rect>
-     <x>1550</x>
-     <y>550</y>
+     <x>1760</x>
+     <y>600</y>
      <width>101</width>
      <height>201</height>
     </rect>
@@ -29,8 +29,8 @@
   <widget class="QLabel" name="tempValue">
    <property name="geometry">
     <rect>
-     <x>1520</x>
-     <y>810</y>
+     <x>1750</x>
+     <y>840</y>
      <width>139</width>
      <height>71</height>
     </rect>
@@ -57,10 +57,10 @@
   <widget class="QLabel" name="grinder">
    <property name="geometry">
     <rect>
-     <x>730</x>
-     <y>10</y>
-     <width>181</width>
-     <height>191</height>
+     <x>1290</x>
+     <y>30</y>
+     <width>161</width>
+     <height>161</height>
     </rect>
    </property>
    <property name="text">
@@ -70,11 +70,11 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="Milk">
+  <widget class="QLabel" name="MilkContainer">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>570</y>
+     <x>560</x>
+     <y>560</y>
      <width>181</width>
      <height>221</height>
     </rect>
@@ -92,13 +92,13 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="Water">
+  <widget class="QLabel" name="WaterContainer">
    <property name="geometry">
     <rect>
-     <x>1320</x>
-     <y>560</y>
-     <width>221</width>
-     <height>211</height>
+     <x>1470</x>
+     <y>760</y>
+     <width>151</width>
+     <height>151</height>
     </rect>
    </property>
    <property name="autoFillBackground">
@@ -120,20 +120,23 @@
   <widget class="QLabel" name="powderpipe">
    <property name="geometry">
     <rect>
-     <x>830</x>
-     <y>200</y>
-     <width>161</width>
-     <height>201</height>
+     <x>1340</x>
+     <y>100</y>
+     <width>261</width>
+     <height>331</height>
     </rect>
    </property>
    <property name="text">
     <string>powderpipe</string>
    </property>
+   <property name="scaledContents">
+    <bool>false</bool>
+   </property>
   </widget>
   <widget class="QLabel" name="milkTempValue">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>430</x>
      <y>810</y>
      <width>121</width>
      <height>51</height>
@@ -146,16 +149,135 @@
     <string notr="true">background-color: rgb(255, 114, 32);</string>
    </property>
    <property name="text">
-    <string>TextLabel</string>
+    <string/>
    </property>
   </widget>
   <widget class="QLabel" name="milktempthermo">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>550</y>
+     <x>460</x>
+     <y>540</y>
      <width>71</width>
      <height>251</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="pressureProgress">
+   <property name="geometry">
+    <rect>
+     <x>1690</x>
+     <y>500</y>
+     <width>121</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(49, 30, 255);</string>
+   </property>
+   <property name="text">
+    <string>Pressure</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>1510</x>
+     <y>550</y>
+     <width>161</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">image: url(:/pump.png);</string>
+   </property>
+   <property name="text">
+    <string>Pump</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>1810</x>
+     <y>130</y>
+     <width>71</width>
+     <height>151</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">image: url(:/valve1.png);</string>
+   </property>
+   <property name="text">
+    <string>Valve</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="WaterValve">
+   <property name="geometry">
+    <rect>
+     <x>1350</x>
+     <y>400</y>
+     <width>101</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Valve</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>1320</x>
+     <y>450</y>
+     <width>121</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">image: url(:/brewingunit.png);</string>
+   </property>
+   <property name="text">
+    <string>Brewing unit</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="straightpipe">
+   <property name="geometry">
+    <rect>
+     <x>1570</x>
+     <y>650</y>
+     <width>181</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Pipe1</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="bentpipe">
+   <property name="geometry">
+    <rect>
+     <x>1400</x>
+     <y>370</y>
+     <width>401</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Pipe</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Milkvalve">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>150</y>
+     <width>63</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">

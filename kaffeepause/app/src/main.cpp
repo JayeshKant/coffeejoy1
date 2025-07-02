@@ -229,11 +229,14 @@ int main(int argc, char *argv[])
                                     &m_touchScreen,
                                     m_valves);
 
-    PreparationShutdown m_preparationShutdown(&m_coinChecker, m_lightSensors, &m_simulation, &m_maintenance);
+    PreparationShutdown m_preparationShutdown(&m_coinChecker, m_lightSensors, &m_simulation, &m_maintenance, &m_touchHandler);
 
     // Init GUI
 
-    MainWindow window(&m_simulation, &m_coffeeSelection, &m_coffeeStateMachine, &m_payment, &m_touchScreen, &m_touchHandler, &m_thermoblock);
+    MainWindow window(&m_simulation, &m_coffeeSelection, &m_coffeeStateMachine,
+                      &m_payment, &m_touchScreen, &m_touchHandler,
+                      &m_thermoblock,
+                      &m_waterValve, &m_milkValve, &m_steamValve, &m_freshWaterSupplyValve);
 
     Splashscreen splash;
     splash.show();

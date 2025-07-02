@@ -7,7 +7,7 @@ CoinSensor::CoinSensor(QObject* parent)
 }
 
 CoinSensor::CoinSensor(coinType coinType, QObject* parent)
-    :QObject(parent){
+    :QObject(parent), coinSensorType(coinType){
     resetValues();
 }
 

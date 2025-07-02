@@ -15,7 +15,10 @@ public:
     void reset();
 
     void setValveState(valveState newState);
+signals:
+    void valveStateChanged(valveType type, valveState newState);
 
+public:
     valveState getValveState();
 
 private:

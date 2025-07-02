@@ -1,6 +1,5 @@
 #include "unittest_coinchecker.h"
 
-#include <iostream>
 
 using namespace std;
 

@@ -35,6 +35,7 @@ signals:
     void coffeeSelected(coffee typeCoffee);
     void intensityConfirmed(intensity chosenIntensity);
     void startUp();
+    void shutdownRequested();
 
 private slots:
     void onTouchEvent();

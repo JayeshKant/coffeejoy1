@@ -48,6 +48,8 @@ enum class event {
     COIN_DETECTED,
     COIN_VALID,
     COIN_INVALID,
+    COIN_INVALID_RETURNED,
+    COIN_STUCK,
     COIN_BOOKED,
     NEEDED_AMOUNT_REACHED,
     NEEDED_AMOUNT_NOT_REACHED,
@@ -94,14 +96,11 @@ public:
     void setTouchHandler(TouchHandler* m_touchHandler);
 
 signals:
-    void startUp();
     void readySelectCoffee();
     void newBalance();
-    void startCoffee();
     void waitForCup();
     void steamMilk();
 
-    //TODO check wich Signals are used
     void coffeeReadyToDispense();
     void coffeeReadyToTakout();
     void shutdownRequested();
@@ -110,27 +109,6 @@ signals:
     void abortRequested();
 
     void stateChanged(state newState);
-
-    // for child states payment
-
-
-private slots:
-
-    void onStart();
-    void onStartupDone();
-
-    void onCoffeeReadyToDispense();
-    void onCoffeeTaken();
-    void onShutdown();
-    void onMaintenance();
-    void onDecalcification();
-    void onAbort();
-    void onCoinStuck(QString errmsg);
-
-    // for child states payment
-    void onCoinInvalid(); //return Coin -> where?
-
-
 
 private:
     Simulation* m_simulation;

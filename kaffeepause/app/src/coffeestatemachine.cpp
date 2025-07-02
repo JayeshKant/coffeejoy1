@@ -15,10 +15,6 @@ CoffeeStateMachine::CoffeeStateMachine(
     m_coffeeSelection(m_coffeeSelection),
     m_coinSupply(m_coinSupply){
 
-
-    connect(this, &CoffeeStateMachine::startUp, this, [this]() { trigger(event::START_UP); });
-    //connect(this, &CoffeeStateMachine::readySelectCoffee, this, [this]() { trigger(event::START_UP_DONE); });
-
     connect(this, &CoffeeStateMachine::coffeeReadyToDispense, this, [this]() { trigger(event::COFFEE_READY_TO_TAKEOUT); });
     connect(this, &CoffeeStateMachine::coffeeReadyToTakout, this, [this]() { trigger(event::FINISHED); });
 
@@ -29,25 +25,7 @@ CoffeeStateMachine::CoffeeStateMachine(
 
     connect(m_simulation, &Simulation::coinInserted, this, [this]() { trigger(event::COIN_INSERTED); });
 
-    connect(m_coinChecker, &CoinChecker::coinInvalid, this, [this]() { trigger(event::COIN_INVALID); });
     connect(m_coinChecker, &CoinChecker::coinDetected, this, [this]() { trigger(event::COIN_DETECTED); });
-
-
-
-
-    // connections of signals and slots
-    // connect(this, &CoffeeStateMachine::startUp, this, &CoffeeStateMachine::onStart);
-    // connect(this, &CoffeeStateMachine::readySelectCoffee, this, &CoffeeStateMachine::onStartupDone);
-
-    connect(this, &CoffeeStateMachine::coffeeReadyToDispense, this, &CoffeeStateMachine::onCoffeeReadyToDispense);
-    connect(this, &CoffeeStateMachine::coffeeReadyToTakout, this, &CoffeeStateMachine::onCoffeeTaken);
-    connect(this, &CoffeeStateMachine::shutdownRequested, this, &CoffeeStateMachine::onShutdown);
-    connect(m_coinSupply, &CoinSupply::coinStuck, this, &CoffeeStateMachine::onCoinStuck);
-    connect(this, &CoffeeStateMachine::maintenanceRequested, this, &CoffeeStateMachine::onMaintenance);
-    connect(this, &CoffeeStateMachine::decalcificationRequested, this, &CoffeeStateMachine::onDecalcification);
-    connect(this, &CoffeeStateMachine::abortRequested, this, &CoffeeStateMachine::onAbort);
-
-    connect(m_coinChecker, &CoinChecker::coinInvalid, this, &CoffeeStateMachine::onCoinInvalid);
 
     qDebug() << "Initial State:" << (int)current_state_;
 
@@ -125,6 +103,20 @@ void CoffeeStateMachine::trigger(enum event e) {
         }
         break;
 
+    case state::returnInvalid:
+        switch (e) {
+        case event::COIN_INVALID_RETURNED: current_state_ = state::waitingForCoin;
+            break;
+        // case event::COIN_STUCK: current_state_ = state::maintenance;
+        //     break;
+        default:
+            qDebug() << "default case return Invalid";
+            break;
+        }
+        break;
+
+
+
     case state::bookCoin:
         switch (e) {
         case event::NEEDED_AMOUNT_REACHED: current_state_ = state::returnChange;
@@ -139,10 +131,11 @@ void CoffeeStateMachine::trigger(enum event e) {
         }
         break;
 
+
+
     case state::returnChange:
         if (e == event::PAYMENT_DONE){
             current_state_ = state::makeCoffee;
-            // emit startCoffee();
         }
         break;
 
@@ -257,43 +250,3 @@ state CoffeeStateMachine::getCurrentState() {
 int CoffeeStateMachine::getCurrentAmountPaid(){
     return m_payment->getCurrentAmountPaid();
 }
-
-//Slots
-
-void CoffeeStateMachine::onStart() {
-    //emit this->readySelectCoffee();
-}
-
-void CoffeeStateMachine::onStartupDone(){
-    // TODO what should happen here?
-}
-
-
-void CoffeeStateMachine::onCoinInvalid(){ //TODO move to Payment
-    qDebug() << "on Coin Invalid";
-    // return inserted Coin
-    emit m_payment->waitingForCoin();
-}
-
-
-
-/*
-void CoffeeStateMachine::onChangeReturned(){
-    //start Coffe Making Progress -> grinding Beans
-
-}*/
-
-void CoffeeStateMachine::onCoffeeReadyToDispense(){}
-
-void CoffeeStateMachine::onCoffeeTaken(){}
-
-void CoffeeStateMachine::onShutdown(){}
-
-void CoffeeStateMachine::onMaintenance(){}
-
-void CoffeeStateMachine::onDecalcification(){}
-
-void CoffeeStateMachine::onAbort(){}
-
-
-void CoffeeStateMachine::onCoinStuck(QString errmsg){}
